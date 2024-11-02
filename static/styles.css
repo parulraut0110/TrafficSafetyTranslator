@@ -54,3 +54,11 @@ h2 {
     color: #333;
     text-align: center;
 }
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
