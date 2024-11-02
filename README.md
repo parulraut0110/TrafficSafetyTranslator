@@ -4,6 +4,9 @@
 
 The Road Safety Translator and Chatbot is a web application designed to promote road safety awareness by providing translations of road safety messages into various official languages of India. It also includes a chatbot feature that answers common questions related to road safety.
 
+![image](https://github.com/user-attachments/assets/d04f1745-6d97-4db6-8a77-c17558a315b8)
+
+
 ## Description
 
 This application serves two main purposes:
@@ -50,4 +53,4 @@ pip install Flask googletrans==4.0.0-rc1
 python app.py
 ```
 
-4. **Access the Application: Open your web browser and go to http://127.0.0.1:5000/ to use the application**.   
+4. **Access the Application: Open your web browser and go to `http://127.0.0.1:5000/` to use the application**.   
