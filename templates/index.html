@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Safety Translator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Road Safety Message Translator</h1>
+    <form method="POST">
+        <textarea name="text" required placeholder="Enter your message here..."></textarea>
+        <select name="language">
+            <option value="hi">Hindi</option>
+            <option value="bn">Bengali</option>
+            <option value="ta">Tamil</option>
+            <option value="te">Telugu</option>
+            <option value="mr">Marathi</option>
+            <option value="gu">Gujarati</option>
+            <option value="ur">Urdu</option>
+            <option value="kn">Kannada</option>
+            <option value="ml">Malayalam</option>
+            <option value="or">Odia</option>
+            <option value="pa">Punjabi</option>
+            <option value="as">Assamese</option>
+            <option value="ma">Maithili</option>
+            <option value="sa">Sanskrit</option>
+            <option value="ne">Nepali</option>
+            <option value="bh">Bhojpuri</option>
+            <option value="sd">Sindhi</option>
+            <option value="ks">Kashmiri</option>
+            <option value="dv">Dhivehi</option>
+            <option value="si">Sinhalese</option>
+            <option value="en">English</option>
+            <option value="hs">Hindi Sign Language</option>
+            <option value="gu">Gurmukhi</option>
+        </select>
+        <button type="submit">Translate</button>
+    </form>
+    {% if translation %}
+        <h2>Translation:</h2>
+        <p>{{ translation }}</p>
+    {% endif %}
+</body>
+</html>
