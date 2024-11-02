@@ -38,7 +38,7 @@ This application serves two main purposes:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/road-safety-translator.git
+   git clone https://github.com/parulraut0110/TrafficSafetyTranslator.git
    cd road-safety-translator
    ```
 2. **Install Required Packages: Use the following command to install the necessary dependencies**:
