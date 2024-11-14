@@ -8,12 +8,17 @@
 </head>
 <body>
     <h1>Road Safety Message Translator and Chatbot</h1>
-
+                                                                               
     <!-- Translator Section -->
     <section>
         <h2>Translate Road Safety Messages</h2>
-        <form method="POST">
-            <textarea name="text" required placeholder="Enter your message here..."></textarea>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="text">Type your message:</label>
+            <textarea name="text" placeholder="Enter your message here..."></textarea>
+
+            <label for="file">Upload a text, PDF, or DOCX file:</label>
+            <input type="file" name="file" accept=".txt,.pdf,.docx">
+
             <select name="language">
                 <option value="hi">Hindi</option>
                 <option value="bn">Bengali</option>

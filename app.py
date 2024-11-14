@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request
 from googletrans import Translator
+import os
+from docx import Document  # To handle .docx files
+from PyPDF2 import PdfReader  # To handle .pdf files
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = './uploads'
 translator = Translator()
+
+# Ensure the upload folder exists
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 # Sample responses for the chatbot
 chatbot_responses = {
@@ -298,22 +306,54 @@ chatbot_responses = {
 }
 
 
+
+def extract_text_from_docx(file_path):
+    doc = Document(file_path)
+    return "\n".join([paragraph.text for paragraph in doc.paragraphs])
+
+def extract_text_from_pdf(file_path):
+    text = ""
+    with open(file_path, "rb") as file:
+        reader = PdfReader(file)
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     translation = None
     chatbot_response = None
-    
+
     if request.method == "POST":
-        if 'text' in request.form:  # Check if the translation form was submitted
-            text = request.form.get('text', '')  # Use .get() to avoid KeyError
-            language = request.form.get('language', 'en')  # Default to English if not provided
-            if text:  # Check if text is not empty
-                translation = translator.translate(text, dest=language).text
-        elif 'chat_message' in request.form:  # Check if the chatbot form was submitted
-            user_message = request.form.get('chat_message', '').lower()  # Use .get() to avoid KeyError
-            if user_message:  # Check if the message is not empty
-                chatbot_response = get_chatbot_response(user_message)
-    
+        text = request.form.get('text', '')  # Text input field
+        language = request.form.get('language', 'en')  # Target language
+
+        # Check for file upload
+        if 'file' in request.files and request.files['file'].filename != '':
+            file = request.files['file']
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(file_path)
+
+            # Determine file type and extract text
+            if file.filename.endswith('.txt'):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    text = f.read()
+            elif file.filename.endswith('.docx'):
+                text = extract_text_from_docx(file_path)
+            elif file.filename.endswith('.pdf'):
+                text = extract_text_from_pdf(file_path)
+            else:
+                return "Unsupported file type", 400  # Unsupported format
+
+        # Translate if text is provided
+        if text:
+            translation = translator.translate(text, dest=language).text
+
+        # Handle chatbot response
+        user_message = request.form.get('chat_message', '').lower()
+        if user_message:
+            chatbot_response = get_chatbot_response(user_message)
+
     return render_template("index.html", translation=translation, chatbot_response=chatbot_response)
 
 def get_chatbot_response(message):
@@ -321,6 +361,7 @@ def get_chatbot_response(message):
         if key in message:
             return chatbot_responses[key]
     return "I'm sorry, I don't understand that."
+
 
 if __name__ == "__main__":
     app.run(debug=True)
