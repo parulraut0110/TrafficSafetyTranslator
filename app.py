@@ -313,11 +313,16 @@ def extract_text_from_docx(file_path):
 
 def extract_text_from_pdf(file_path):
     text = ""
-    with open(file_path, "rb") as file:
-        reader = PdfReader(file)
-        for page in reader.pages:
-            text += page.extract_text()
-    return text
+    try:
+        with open(file_path, "rb") as file:
+            reader = PdfReader(file)
+            for page in reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text
+    except Exception as e:
+        print(f"Error reading PDF file: {e}")
+    return text if text else None  # Return None if text is empty
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -325,10 +330,10 @@ def index():
     chatbot_response = None
 
     if request.method == "POST":
-        text = request.form.get('text', '')  # Text input field
-        language = request.form.get('language', 'en')  # Target language
+        text = request.form.get('text', '')
+        language = request.form.get('language', 'en')
 
-        # Check for file upload
+        # Handle file upload
         if 'file' in request.files and request.files['file'].filename != '':
             file = request.files['file']
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
@@ -343,9 +348,13 @@ def index():
             elif file.filename.endswith('.pdf'):
                 text = extract_text_from_pdf(file_path)
             else:
-                return "Unsupported file type", 400  # Unsupported format
+                return "Unsupported file type", 400
 
-        # Translate if text is provided
+            # Check if text extraction was successful
+            if not text:
+                return "Unable to extract text from file.", 400
+
+        # Translate if text is available
         if text:
             translation = translator.translate(text, dest=language).text
 
@@ -361,6 +370,7 @@ def get_chatbot_response(message):
         if key in message:
             return chatbot_responses[key]
     return "I'm sorry, I don't understand that."
+
 
 
 if __name__ == "__main__":
