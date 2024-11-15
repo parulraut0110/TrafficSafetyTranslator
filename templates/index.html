@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Safety Translator and Generative AI Chatbot</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Road Safety Message Translator and Generative AI Chatbot</h1>
+
+    <!-- Translator Section -->
+    <section>
+        <h2>Translate Road Safety Messages</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="text">Type your message:</label>
+            <textarea name="text" placeholder="Enter your message here..."></textarea>
+
+            <label for="file">Upload a text, PDF, or DOCX file:</label>
+            <input type="file" name="file" accept=".txt,.pdf,.docx">
+
+            <select name="language">
+                <option value="hi">Hindi</option>
+                <option value="bn">Bengali</option>
+                <option value="ta">Tamil</option>
+                <option value="te">Telugu</option>
+                <option value="mr">Marathi</option>
+                <option value="gu">Gujarati</option>
+                <option value="ur">Urdu</option>
+                <option value="kn">Kannada</option>
+                <option value="ml">Malayalam</option>
+                <option value="or">Odia</option>
+                <option value="pa">Punjabi</option>
+                <option value="as">Assamese</option>
+                <option value="ma">Maithili</option>
+                <option value="sa">Sanskrit</option>
+                <option value="ne">Nepali</option>
+                <option value="bh">Bhojpuri</option>
+                <option value="sd">Sindhi</option>
+                <option value="ks">Kashmiri</option>
+                <option value="dv">Dhivehi</option>
+                <option value="si">Sinhalese</option>
+                <option value="en">English</option>
+            </select>
+            <button type="submit">Translate</button>
+        </form>
+        {% if translation %}
+            <h3>Translation:</h3>
+            <p>{{ translation }}</p>
+        {% endif %}
+    </section>
+
+    <!-- Generative AI Chatbot Section -->
+    <section>
+        <h2>Chat with Gemini - Your Supportive AI Companion</h2>
+        <form method="POST">
+            <label for="chat_message">How are you feeling today? Or ask about road safety:</label>
+            <input type="text" name="chat_message" required placeholder="Share your thoughts or ask about safety...">
+            <button type="submit">Send</button>
+        </form>
+        {% if generative_response %}
+            <h3>Gemini's Response:</h3>
+            <p>{{ generative_response }}</p>
+        {% endif %}
+    </section>
+</body>
+</html>
