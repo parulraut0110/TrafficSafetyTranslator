@@ -16,7 +16,7 @@ The Road Safety Translator and Chatbot is a web application designed to promote 
 ![image](https://github.com/user-attachments/assets/82ab0b27-9d78-4178-a828-789fe96027ec)
 
 
-![image](https://github.com/user-attachments/assets/1e5a3e0d-044f-43cd-b3ce-21dc336b0c46)
+
 
 ## Description
 
