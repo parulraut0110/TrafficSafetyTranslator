@@ -1,7 +1,5 @@
 # Road Safety Translator and Chatbot
 
-
-
 ## Introduction
 
 The Road Safety Translator and Chatbot is a web application designed to promote road safety awareness by providing translations of road safety messages into various official languages of India. It also includes a chatbot feature that answers common questions related to road safety.
